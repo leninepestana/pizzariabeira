@@ -41,7 +41,7 @@ class AuthUserService {
       }
     );
 
-    console.log(email, password);
+    // console.log(email, password);
 
     return {
       id: user.id,
