@@ -10,6 +10,7 @@ import { CreateProductController } from "./controllers/product/CreateProductCont
 import { ListByCategoryController } from "./controllers/product/ListByCategoryController";
 import { CreateOrderController } from "./controllers/order/CreateOrderController";
 import { RemoveOrderController } from "./controllers/order/RemoveOrderController";
+import { AddOrderItemController } from "./controllers/order/AddOrderItemController";
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
@@ -56,3 +57,6 @@ router.post("/order", isAuthenticated, new CreateOrderController().handle);
 // Apagar uma order
 router.delete("/order", isAuthenticated, new RemoveOrderController().handle);
 export { router };
+
+// Adicionar items a Order
+router.post("/order/add", isAuthenticated, new AddOrderItemController().handle);
