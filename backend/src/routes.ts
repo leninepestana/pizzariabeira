@@ -11,6 +11,7 @@ import { ListByCategoryController } from "./controllers/product/ListByCategoryCo
 import { CreateOrderController } from "./controllers/order/CreateOrderController";
 import { RemoveOrderController } from "./controllers/order/RemoveOrderController";
 import { AddOrderItemController } from "./controllers/order/AddOrderItemController";
+import { RemoveOrderItemController } from "./controllers/order/RemoveOrderItemController";
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
@@ -60,3 +61,10 @@ export { router };
 
 // Adicionar items a Order
 router.post("/order/add", isAuthenticated, new AddOrderItemController().handle);
+
+// Remover Item de uma Order
+router.delete(
+  "/order/remove",
+  isAuthenticated,
+  new RemoveOrderItemController().handle
+);
