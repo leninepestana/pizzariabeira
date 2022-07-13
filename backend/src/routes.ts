@@ -12,6 +12,7 @@ import { CreateOrderController } from "./controllers/order/CreateOrderController
 import { RemoveOrderController } from "./controllers/order/RemoveOrderController";
 import { AddOrderItemController } from "./controllers/order/AddOrderItemController";
 import { RemoveOrderItemController } from "./controllers/order/RemoveOrderItemController";
+import { SendOrderController } from "./controllers/order/SendOrderController";
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
@@ -53,18 +54,34 @@ router.get(
 
 // -- ROTAS DE ORDER --
 // Criar uma order
-router.post("/order", isAuthenticated, new CreateOrderController().handle);
+router.post(
+  "/order/create",
+  isAuthenticated,
+  new CreateOrderController().handle
+);
 
 // Apagar uma order
-router.delete("/order", isAuthenticated, new RemoveOrderController().handle);
-export { router };
-
-// Adicionar items a Order
-router.post("/order/add", isAuthenticated, new AddOrderItemController().handle);
-
-// Remover Item de uma Order
 router.delete(
   "/order/remove",
   isAuthenticated,
+  new RemoveOrderController().handle
+);
+
+// Adicionar items a Order
+router.post(
+  "/order/additem",
+  isAuthenticated,
+  new AddOrderItemController().handle
+);
+
+// Remover Item de uma Order
+router.delete(
+  "/order/removeitem",
+  isAuthenticated,
   new RemoveOrderItemController().handle
 );
+
+// Atualizar o draft
+router.put("/order/send", isAuthenticated, new SendOrderController().handle);
+
+export { router };
