@@ -15,6 +15,7 @@ import { RemoveOrderItemController } from "./controllers/order/RemoveOrderItemCo
 import { SendOrderController } from "./controllers/order/SendOrderController";
 import { ListOrdersController } from "./controllers/order/ListOrdersController";
 import { DetailOrderController } from "./controllers/order/DetailOrderController";
+import { FinishOrderController } from "./controllers/order/FinishOrderController";
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
@@ -94,6 +95,13 @@ router.get(
   "/order/detail",
   isAuthenticated,
   new DetailOrderController().handle
+);
+
+// Finalizar a Order
+router.put(
+  "/order/finish",
+  isAuthenticated,
+  new FinishOrderController().handle
 );
 
 export { router };
