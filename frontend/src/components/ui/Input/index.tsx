@@ -1,8 +1,8 @@
-import { InputHTMLAttributes, TextAreaHTMLAttributes } from "react";
+import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import styles from "./styles.module.scss";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
-interface TextareaProps extends TextAreaHTMLAttributes<HTMLTextAreaElement> {}
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 export function Input({ ...rest }: InputProps) {
   return <input className={styles.input} {...rest} />;
