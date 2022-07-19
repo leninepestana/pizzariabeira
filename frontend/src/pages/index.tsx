@@ -8,7 +8,11 @@ import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { toast } from "react-toastify";
 
+import { canSSRGuest } from "../utils/canSSRGuest";
+
 import { AuthContext } from "../contexts/AuthContext";
+
+import { GetServerSideProps } from "next";
 
 import Link from "next/link";
 
@@ -75,3 +79,7 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  return { props: {} };
+});
