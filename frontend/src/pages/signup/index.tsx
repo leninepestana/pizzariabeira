@@ -9,6 +9,8 @@ import { Button } from "../../components/ui/Button";
 
 import { AuthContext } from "../../contexts/AuthContext";
 
+import { toast } from "react-toastify";
+
 import Link from "next/link";
 
 export default function SignUp() {
@@ -24,7 +26,8 @@ export default function SignUp() {
     event.preventDefault();
 
     if (name === "" || email === "" || password === "") {
-      alert("Please enter your username, email and password");
+      // alert("Please enter your username, email and password");
+      toast.error("Please enter your username, email and password");
       return;
     }
 

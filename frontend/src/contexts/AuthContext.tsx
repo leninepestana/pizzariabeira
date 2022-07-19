@@ -3,6 +3,8 @@ import { api } from "../services/apiClient";
 import { destroyCookie, setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 
+import { toast } from "react-toastify";
+
 type AuthContextData = {
   user: UserProps;
   isAuthenticated: boolean;
@@ -70,20 +72,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // Passar o token para as próximas requisições
       api.defaults.headers[`Authorization`] = `Bearer ${token}`;
 
+      toast.success("Login successful!");
       //  Redirecionar o utilizador para o dashboard
       Router.push("/dashboard");
     } catch (err) {
+      toast.error("Login session error");
       console.log("Erro ao iniciar sessão: ", err);
     }
   }
 
   async function signUp({ name, email, password }: SignUpProps) {
-    console.log(name);
+    toast.success("Success creating the account!");
     try {
       const response = await api.post("/users", { name, email, password });
       console.log("Success registering the user");
       Router.push("/");
     } catch (err) {
+      toast.error("Error signing up");
       console.log("Error signing Up ", err);
     }
   }
