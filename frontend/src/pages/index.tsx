@@ -22,12 +22,21 @@ export default function Home() {
   async function handleLogin(event: FormEvent) {
     event.preventDefault();
 
+    if (email === "" || password === "") {
+      alert("Please enter your email address and password");
+      return;
+    }
+
+    setLoading(true);
+
     let data = {
       email,
       password,
     };
 
     await signIn(data);
+
+    setLoading(false);
   }
 
   return (
@@ -52,7 +61,7 @@ export default function Home() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button type="submit" loading={false}>
+            <Button type="submit" loading={loading}>
               Login
             </Button>
             <Link href="/signup">
