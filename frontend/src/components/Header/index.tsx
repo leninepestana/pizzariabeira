@@ -19,7 +19,7 @@ export function Header() {
             <a>Category</a>
           </Link>
 
-          <Link href="/products">
+          <Link href="/product">
             <a>Menu</a>
           </Link>
 
