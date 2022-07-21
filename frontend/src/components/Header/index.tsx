@@ -11,9 +11,11 @@ export function Header() {
     <header className={styles.headerContainer}>
       <div className={styles.headerContent}>
         <Link href="/">
-          <Image src="/logo.svg" alt="" width={190} height={60} />
+          <picture>
+            <source srcSet="/logo.svg" type="" />
+            <img src="/logo.svg" alt="Pizzaria Beirã" width={190} height={60} />
+          </picture>
         </Link>
-
         <nav className={styles.menuNav}>
           <Link href="/category">
             <a>Category</a>

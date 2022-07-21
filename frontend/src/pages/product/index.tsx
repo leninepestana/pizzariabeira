@@ -1,8 +1,8 @@
 import { useState, ChangeEvent } from "react";
 import Head from "next/head";
-import style from "./styles.module.scss";
-import { Header } from "../../components/Header";
 import styles from "./styles.module.scss";
+
+import { Header } from "../../components/Header";
 
 import { FiUpload } from "react-icons/fi";
 
@@ -31,19 +31,19 @@ export default function Product() {
       setAvatarUrl(URL.createObjectURL(e.target.files[0]));
     }
   }
-
-  //
   return (
     <>
       <Head>
         <title>New product - Pizzaria Beirã</title>
       </Head>
+
       <div>
         <Header />
+
         <main className={styles.container}>
           <h1>New product</h1>
 
-          <form className={style.form}>
+          <form className={styles.form}>
             <label className={styles.avatar}>
               <span>
                 <FiUpload size={30} color="#FFF" />
@@ -55,13 +55,17 @@ export default function Product() {
                 onChange={handleFile}
               />
               {avatarUrl && (
-                <img
-                  className={styles.preview}
-                  src={avatarUrl}
-                  alt="Avatar"
-                  width={250}
-                  height={250}
-                />
+                <div className={styles.boxAvatar}>
+                  <picture>
+                    <img
+                      className={styles.preview}
+                      src={avatarUrl}
+                      alt="Avatar"
+                      width={250}
+                      height={250}
+                    />
+                  </picture>
+                </div>
               )}
             </label>
             <select>
@@ -95,6 +99,7 @@ export default function Product() {
     </>
   );
 }
+
 export const getServerSideProps = canSSRauth(async (ctx) => {
   return {
     props: {},
