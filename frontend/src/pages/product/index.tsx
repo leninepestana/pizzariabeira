@@ -6,6 +6,8 @@ import { Header } from "../../components/Header";
 
 import { FiUpload } from "react-icons/fi";
 
+import { setupAPIClient } from "../../services/api";
+
 import Image from "next/image";
 
 import { canSSRauth } from "../../utils/canSSRAuth";
@@ -34,68 +36,60 @@ export default function Product() {
   return (
     <>
       <Head>
-        <title>New product - Pizzaria Beirã</title>
+        <title>New Product - Pizzaria Beirã</title>
       </Head>
 
-      <div>
-        <Header />
+      <Header />
 
-        <main className={styles.container}>
-          <h1>New product</h1>
+      <main className={styles.container}>
+        <h1>New Product</h1>
 
-          <form className={styles.form}>
-            <label className={styles.avatar}>
-              <span>
-                <FiUpload size={30} color="#FFF" />
-              </span>
-
-              <input
-                type="file"
-                accept="image/png, image/jpeg"
-                onChange={handleFile}
+        <form className={styles.form}>
+          <label className={styles.avatar}>
+            <span>
+              <FiUpload size={25} color="#FFF" />
+            </span>
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              onChange={handleFile}
+            />
+            {avatarUrl && (
+              <img
+                className={styles.preview}
+                src={avatarUrl}
+                alt="Product picture"
+                width={250}
+                height={250}
               />
-              {avatarUrl && (
-                <div className={styles.boxAvatar}>
-                  <picture>
-                    <img
-                      className={styles.preview}
-                      src={avatarUrl}
-                      alt="Avatar"
-                      width={250}
-                      height={250}
-                    />
-                  </picture>
-                </div>
-              )}
-            </label>
-            <select>
-              <option>Bebidas</option>
-              <option>Pizzas</option>
-            </select>
+            )}
+          </label>
+          <select>
+            <option>Bebidas</option>
+            <option>Gelados</option>
+            <option>Pizzas</option>
+          </select>
 
-            <input
-              type="text"
-              placeholder="New product"
-              className={styles.input}
-            />
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Product name"
+          />
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Product price"
+          />
+          <textarea
+            placeholder="Product description"
+            className={styles.input}
+          />
 
-            <input
-              type="text"
-              placeholder="Product price"
-              className={styles.input}
-            />
-
-            <textarea
-              placeholder="Product description..."
-              className={styles.input}
-            />
-
-            <button className={styles.button} type="submit">
-              Insert new product
-            </button>
-          </form>
-        </main>
-      </div>
+          <button className={styles.button} type="submit">
+            Create product
+          </button>
+        </form>
+      </main>
     </>
   );
 }
