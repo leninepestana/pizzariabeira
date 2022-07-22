@@ -38,7 +38,7 @@ router.post(
   new CreateCategoryController().handle
 );
 // Listar categorias
-router.get("/categories", isAuthenticated, new ListCategoryController().handle);
+router.get("/category", isAuthenticated, new ListCategoryController().handle);
 
 // -- ROTAS DE PRODUCT --
 // Criar producto
