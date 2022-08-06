@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import Head from "next/head";
 import styles from "./styles.module.scss";
 
@@ -6,9 +6,11 @@ import { Header } from "../../components/Header";
 
 import { FiUpload } from "react-icons/fi";
 
+import { canSSRAuth } from "../../utils/canSSRAuth";
+
 import { setupAPIClient } from "../../services/api";
 
-import { canSSRAuth } from "../../utils/canSSRAuth";
+import { toast } from "react-toastify";
 
 type ItemProps = {
   id: string;
@@ -20,10 +22,16 @@ interface CategoryProps {
 }
 
 export default function Product({ categoryList }: CategoryProps) {
+  // console.log(categoryList);
+
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+
   const [avatarUrl, setAvatarUrl] = useState("");
   const [imageAvatar, setImageAvatar] = useState(null);
 
-  const [categories, setCategories] = useState(categoryList || []);
+  const [categories, setCategory] = useState(categoryList || []);
   const [categorySelected, setCategorySelected] = useState(0);
 
   function handleFile(e: ChangeEvent<HTMLInputElement>) {
@@ -43,6 +51,53 @@ export default function Product({ categoryList }: CategoryProps) {
       setAvatarUrl(URL.createObjectURL(e.target.files[0]));
     }
   }
+
+  // When you select a new category from the list
+  function handleChangeCategory(event) {
+    // console.log("Category position", event.target.value);
+    // console.log("Selected Category: ", categories[event.target.value]);
+    setCategorySelected(event.target.value);
+  }
+
+  async function handleRegister(event: FormEvent) {
+    event.preventDefault();
+
+    try {
+      const data = new FormData();
+
+      if (
+        name === "" ||
+        price === "" ||
+        description === "" ||
+        imageAvatar === null
+      ) {
+        toast.error("You need to provide all fields");
+        return;
+      }
+
+      data.append("name", name);
+      data.append("price", price);
+      data.append("description", description);
+      data.append("category_id", categories[categorySelected].id);
+      data.append("file", imageAvatar);
+
+      const apiClient = setupAPIClient();
+
+      await apiClient.post("/product", data);
+
+      toast.success("New Product created");
+    } catch (err) {
+      console.log(err);
+      toast.error("Error creating product");
+    }
+
+    setName("");
+    setPrice("");
+    setDescription("");
+    setImageAvatar(null);
+    setAvatarUrl("");
+  }
+
   return (
     <>
       <Head>
@@ -54,7 +109,7 @@ export default function Product({ categoryList }: CategoryProps) {
       <main className={styles.container}>
         <h1>New Product</h1>
 
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleRegister}>
           <label className={styles.avatar}>
             <span>
               <FiUpload size={25} color="#FFF" />
@@ -75,7 +130,7 @@ export default function Product({ categoryList }: CategoryProps) {
             )}
           </label>
 
-          <select value={categorySelected}>
+          <select value={categorySelected} onChange={handleChangeCategory}>
             {categories.map((item, index) => {
               return (
                 <option key={item.id} value={index}>
@@ -89,15 +144,21 @@ export default function Product({ categoryList }: CategoryProps) {
             type="text"
             className={styles.input}
             placeholder="Product name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <input
             type="text"
             className={styles.input}
             placeholder="Product price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
           <textarea
             placeholder="Product description"
             className={styles.input}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
 
           <button className={styles.button} type="submit">
@@ -115,7 +176,7 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
   // console.log(response.data);
   return {
     props: {
-      categoryList: response.data,
+      categoryList: response.data?.category,
     },
   };
 });
