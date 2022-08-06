@@ -37,7 +37,7 @@ export function ModalOrder({ isOpen, onRequestClose, order }: ModalOrderProps) {
       <div className={styles.container}>
         <h2>Request Details</h2>
         <span className={styles.table}>
-          Table: <strong>{order[0].order.table}</strong>
+          Table: <strong>{order[0]?.order?.table}</strong>
         </span>
 
         {order.map((item) => (
